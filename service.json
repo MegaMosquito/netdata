@@ -1,0 +1,29 @@
+{
+  "org": "$HZN_ORG_ID",
+  "label": "$SERVICE_NAME for $ARCH",
+  "url": "$SERVICE_NAME",
+  "version": "$SERVICE_VERSION",
+  "arch": "$ARCH",
+  "public": true,
+  "sharable": "singleton",
+  "requiredServices": [],
+  "userInput": [],
+  "deployment": {
+    "services": {
+      "$SERVICE_NAME": {
+        "image": "${DOCKER_IMAGE_BASE}_$ARCH:$SERVICE_VERSION",
+        "ports": [ { "HostPort":"19999:19999/tcp", "HostIP": "0.0.0.0" } ],
+        "privileged": true,
+        "cap_add": ["SYS_PTRACE"],
+        "binds": [
+          "/etc/passwd:/host/etc/passwd:ro",
+          "/etc/group:/host/etc/group:ro",
+          "/proc:/host/proc:ro",
+          "/sys:/host/sys:ro",
+          "/etc/os-release:/host/etc/os-release:ro"
+        ]
+      }
+    }
+  }
+}
+
